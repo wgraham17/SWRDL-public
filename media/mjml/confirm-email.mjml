@@ -1,0 +1,24 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+
+        <mj-image width="100px" src="https://swrdl.app/mark.png"></mj-image>
+
+        <mj-divider border-color="#AA02AD"></mj-divider>
+
+        <mj-text font-size="18px" color="#000000" font-family="helvetica">Finish Setting Up</mj-text>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">You're receiving this email because you set up account recovery for SWRDL.</mj-text>
+        <mj-text font-size="16px" font-weight="bold" color="#000000" font-family="helvetica" line-height="1.5">You need to confirm your email address to finish.</mj-text>
+        <mj-button background-color="#AA02AD" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="%CONFIRM_LINK%" width="280px" padding-top="40px" padding-bottom="40px">
+          Confirm Email Address
+        </mj-button>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">If you don't confirm your email address within 3 days, this link will expire. You will not be able to recover your account if it is lost. We <strong>highly recommend</strong> you confirm your e-mail so if you ever reinstall the app or switch devices you don't lose all your games and data.</mj-text>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">As part of our commitment to privacy, SWRDL does not store your email address and cannot contact you unless specifically requested.</mj-text>
+        <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
+            &copy; SWRDL.app, All Rights Reserved.
+          </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -1,0 +1,16 @@
+SWRDL, the Social Word Game
+
+The classic guess the word game, with a social twist!
+
+SWRDL is the classic "guess the word" game with a social twist. Create groups and pick your game mode, invite your friends and family, and compete on the same word. Six chances to guess a randomly-selected five letter word and everyone in the Lobby gets the same word.
+
+Features:
+- Play solo or create a group! Create a group and share an invite code with up to 7 other people.
+- Each game lobby has its own word list.
+- Multiple game modes!
+	- Daily Classic: A new word for the lobby every day at midnight.
+	- Twice Daily: A new word at 7am and 7pm. Perfect for before and after work.
+	- Classic Continuous: A new word for the lobby as soon as everyone in the lobby is done.
+	- Classic Lightning: Quick wits required! Five minute limit per word and the game ends after five words.
+- Snoop and spy! When you finish a round, you can see what everyone else guessed (or is guessing), updated live!
+- Coming soon: Score for each round based on speed and accuracy and other fun callouts!

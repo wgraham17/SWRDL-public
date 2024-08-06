@@ -1,0 +1,28 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appIDs": ["NH88Y32M9B.app.swrdl"],
+                "components": [
+                    {
+                        "/": "/j/*",
+                        "comment": "Matches any join URL whose path starts with /j/"
+                    },
+                    {
+                        "/": "/r/*",
+                        "comment": "Matches any Account Recovery URL whose path starts with /r/"
+                    },
+                    {
+                        "/": "/s/*",
+                        "comment": "Matches any Account Recovery Setup URL whose path starts with /s/"
+                    }
+                ]
+            },
+            {
+                "appID": "NH88Y32M9B.app.swrdl",
+                "paths": ["/j/*", "/r/*", "/s/*"]
+            }
+        ]
+    }
+}

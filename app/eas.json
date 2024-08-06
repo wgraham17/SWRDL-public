@@ -1,0 +1,58 @@
+{
+  "cli": {
+    "version": ">= 0.52.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "API_BASE": "https://api-dev.swrdl.app",
+        "WS_BASE": "wss://ws-dev.swrdl.app",
+        "TOKEN_EXPERIENCE_ID": "@wgraham17/swordle"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "API_BASE": "https://api-dev.swrdl.app",
+        "WS_BASE": "wss://ws-dev.swrdl.app",
+        "TOKEN_EXPERIENCE_ID": "@wgraham17/swordle"
+      }
+    },
+    "simulator": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {
+      "android": {
+        "autoIncrement": "versionCode"
+      },
+      "ios": {
+        "autoIncrement": "buildNumber"
+      },
+      "env": {
+        "API_BASE": "https://api.swrdl.app",
+        "WS_BASE": "wss://ws.swrdl.app",
+        "TOKEN_EXPERIENCE_ID": "@wgraham17/swordle"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../private/googleServiceAccountKey.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "wgraham17@gmail.com",
+        "ascAppId": "[REDACTED]",
+        "appleTeamId": "[REDACTED]",
+        "companyName": "imadethis.dev",
+        "appName": "SWRDL"
+      }
+    }
+  }
+}

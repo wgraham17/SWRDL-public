@@ -1,0 +1,132 @@
+{
+  "expo": {
+    "name": "SWRDL",
+    "slug": "swordle",
+    "version": "1.1.1",
+    "runtimeVersion": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "scheme": "swrdl",
+    "jsEngine": "hermes",
+    "ios": {
+      "associatedDomains": [
+        "applinks:swrdl.app"
+      ],
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "supportsTablet": false,
+      "bundleIdentifier": "app.swrdl",
+      "infoPlist": {
+        "CADisableMinimumFrameDurationOnPhone": true
+      },
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff",
+        "dark": {
+          "image": "./assets/splash.png",
+          "backgroundColor": "#222B45"
+        }
+      },
+      "buildNumber": "46"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#AA02AD"
+      },
+      "package": "app.swrdl",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff",
+        "dark": {
+          "image": "./assets/splash.png",
+          "backgroundColor": "#222B45"
+        }
+      },
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 47,
+      "intentFilters": [
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "swrdl.app",
+              "pathPrefix": "/j/"
+            },
+            {
+              "scheme": "https",
+              "host": "*.swrdl.app",
+              "pathPrefix": "/j/"
+            },
+            {
+              "scheme": "https",
+              "host": "swrdl.app",
+              "pathPrefix": "/r/"
+            },
+            {
+              "scheme": "https",
+              "host": "*.swrdl.app",
+              "pathPrefix": "/r/"
+            },
+            {
+              "scheme": "https",
+              "host": "swrdl.app",
+              "pathPrefix": "/s/"
+            },
+            {
+              "scheme": "https",
+              "host": "*.swrdl.app",
+              "pathPrefix": "/s/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "build": {
+        "babel": {
+          "include": [
+            "@ui-kitten/components"
+          ]
+        }
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "imadethisdev",
+            "project": "react-native",
+            "authToken": "[REDACTED]"
+          }
+        }
+      ]
+    },
+    "plugins": [
+      "sentry-expo"
+    ]
+  }
+}

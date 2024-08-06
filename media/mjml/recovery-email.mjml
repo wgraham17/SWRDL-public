@@ -1,0 +1,25 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+
+        <mj-image width="100px" src="https://swrdl.app/mark.png"></mj-image>
+
+        <mj-divider border-color="#AA02AD"></mj-divider>
+
+        <mj-text font-size="18px" color="#000000" font-family="helvetica">Recover Your Account</mj-text>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">You're receiving this email because you requested access to your SWRDL account. To get back into SWRDL, you'll need to click the button below on your mobile device.</mj-text>
+        <mj-text font-size="16px" font-weight="bold" color="#000000" font-family="helvetica" line-height="1.5">This will only work on the same device where SWRDL is installed.</mj-text>
+        <mj-button background-color="#AA02AD" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="%RECOVERY_LINK%" width="280px" padding-top="40px" padding-bottom="40px">
+          Recover My Account
+        </mj-button>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">If you didn't request this, fear not. Your SWRDL account can't be accessed without the link above.</mj-text>
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">As part of our commitment to privacy, SWRDL does not store your email address and cannot contact you unless specifically requested.</mj-text>
+        <mj-text font-size="14px" color="#000000" font-family="helvetica" line-height="1.5">Questions or concerns? Reach out to us at <a style="color: #AA02AD" href="mailto:hello@swrdl.com">hello@swrdl.com</a> or reply to this email.</mj-text>
+        <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
+          &copy; SWRDL.app, All Rights Reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

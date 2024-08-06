@@ -1,0 +1,322 @@
+service: swordle
+frameworkVersion: '3'
+useDotenv: true
+
+params:
+  dev:
+    apiDomain: api-dev.swrdl.app
+    wsDomain: ws-dev.swrdl.app
+    wwwDomain: www-dev.swrdl.app
+    sentryEnvironment: development
+    lobbySyncTopicName: lobby-sync-dev
+    pushNotificationsTopicName: push-notifications-dev
+    recoveryTokenSecret: [REDACTED]
+
+  prod:
+    apiDomain: api.swrdl.app
+    wsDomain: ws.swrdl.app
+    wwwDomain: swrdl.app
+    sentryEnvironment: production
+    lobbySyncTopicName: lobby-sync-prod
+    pushNotificationsTopicName: push-notifications-prod
+    recoveryTokenSecret: [REDACTED]
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 512
+  iam:
+    role:
+      name: swordle-${sls:stage}
+      statements:
+        - Effect: 'Allow'
+          Resource: !Ref LobbySyncTopic
+          Action: 'sns:Publish'
+        - Effect: 'Allow'
+          Resource: !Ref PushNotificationsTopic
+          Action: 'sns:Publish'
+  timeout: 25
+  environment:
+    MONGO_HOST: [REDACTED]
+    MONGO_DB: swordle-${sls:stage}
+    WS_DOMAIN: ${param:wsDomain}
+    WWW_DOMAIN: ${param:wwwDomain}
+    SENTRY_ENV: ${param:sentryEnvironment}
+    LOBBY_SYNC_TOPIC_ARN: !Ref LobbySyncTopic
+    PUSH_NOTIFICATIONS_TOPIC_ARN: !Ref PushNotificationsTopic
+    EXPO_ACCESS_TOKEN: [REDACTED]
+    SENDGRID_API_KEY: [REDACTED]
+    RECOVERY_TOKEN_SECRET: ${param:recoveryTokenSecret}
+
+  httpApi:
+    cors: true
+    authorizers:
+      userAuthorizer:
+        type: request
+        functionName: userAuthorizer
+        enableSimpleResponses: true
+        resultTtlInSeconds: 300
+        identitySource: $request.header.Authorization
+
+functions:
+  userAuthorizer:
+    handler: src/functions/authorizer.handler
+
+  wsAuthorizer:
+    handler: src/functions/ws-authorizer.handler
+
+  lobbyCreateCustom:
+    handler: src/functions/lobby-create-custom.handler
+    events:
+      - httpApi:
+          path: /lobbies/custom
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbyCreate:
+    handler: src/functions/lobby-create.handler
+    events:
+      - httpApi:
+          path: /lobbies
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbyDelete:
+    handler: src/functions/lobby-delete.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}
+          method: DELETE
+          authorizer:
+            name: userAuthorizer
+
+  lobbyJoin:
+    handler: src/functions/lobby-join.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/users
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbyLeave:
+    handler: src/functions/lobby-leave.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/users/_self
+          method: DELETE
+          authorizer:
+            name: userAuthorizer
+
+  lobbyList:
+    handler: src/functions/lobby-list.handler
+    events:
+      - httpApi:
+          path: /lobbies
+          method: GET
+          authorizer:
+            name: userAuthorizer
+
+  lobbyAvatar:
+    handler: src/functions/lobby-avatar.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/avatar
+          method: GET
+          authorizer:
+            name: userAuthorizer
+
+  lobbyRoundAdvancement:
+    handler: src/functions/lobby-round-advancement.handler
+    events:
+      - eventBridge:
+          schedule: rate(1 minute)
+
+  lobbyCleanupUnstarted:
+    handler: src/functions/lobby-cleanup-unstarted.handler
+    events:
+      - eventBridge:
+          schedule: rate(15 minutes)
+
+  lobbyStart:
+    handler: src/functions/lobby-start.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/start
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbySetWord:
+    handler: src/functions/lobby-set-word.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/word
+          method: PUT
+          authorizer:
+            name: userAuthorizer
+
+  lobbyGuess:
+    handler: src/functions/lobby-guess.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/guesses
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbyInvalidWord:
+    handler: src/functions/lobby-invalid-word.handler
+    events:
+      - httpApi:
+          path: /lobbies/{joinKey}/invalidWords
+          method: POST
+          authorizer:
+            name: userAuthorizer
+
+  lobbyRoundPushNotifications:
+    handler: src/functions/lobby-round-push-notifications.handler
+    events:
+      - sns: 
+          arn: !Ref PushNotificationsTopic
+          topicName: ${param:pushNotificationsTopicName}
+
+  notificationReceipts:
+    handler: src/functions/notification-receipts.handler
+    events:
+      - eventBridge:
+          schedule: rate(15 minutes)
+
+  userAuth:
+    handler: src/functions/user-auth.handler
+    events: 
+      - httpApi:
+          path: /users/auth
+          method: GET
+          authorizer:
+            name: userAuthorizer
+
+  userCreate:
+    handler: src/functions/user-create.handler
+    events: 
+      - httpApi:
+          path: /users
+          method: POST
+
+  userAvatar:
+    handler: src/functions/user-avatar.handler
+    events:
+      - httpApi:
+          path: /users/{userID}/avatar
+          method: GET
+          authorizer:
+            name: userAuthorizer
+
+  userInfo:
+    handler: src/functions/user-info.handler
+    events:
+      - httpApi:
+          path: /users/{userID}
+          method: GET
+          authorizer:
+            name: userAuthorizer
+  
+  userSavePreferences:
+    handler: src/functions/user-save-preferences.handler
+    events:
+      - httpApi:
+          path: /users/_self/preferences
+          method: PUT
+          authorizer:
+            name: userAuthorizer
+
+  userSetupRecovery:
+    handler: src/functions/user-setup-recovery.handler
+    events:
+      - httpApi:
+          path: /users/_self/recovery/setup
+          method: POST
+          authorizer: 
+            name: userAuthorizer
+
+  userSetupRecoveryConfirm:
+    handler: src/functions/user-setup-recovery-confirm.handler
+    events:
+      - httpApi:
+          path: /users/_self/recovery/setup
+          method: PUT
+
+  userRecoveryStart:
+    handler: src/functions/user-recovery-start.handler
+    events:
+      - httpApi:
+          path: /users/_self/recovery
+          method: POST
+
+  userRecoveryComplete:
+    handler: src/functions/user-recovery-complete.handler
+    events:
+      - httpApi:
+          path: /users/_self/recovery
+          method: PUT
+  
+  wsConnectHandler:
+    handler: src/functions/ws-events.connectHandler
+    events:
+      - websocket:
+          route: $connect
+          authorizer:
+            name: wsAuthorizer
+            identitySource:
+              - 'route.request.querystring.token'
+
+  wsDisconnectHandler:
+    handler: src/functions/ws-events.disconnectHandler
+    events:
+      - websocket: 
+          route: $disconnect
+
+  wsLobbySync:
+    handler: src/functions/ws-lobby-sync.handler
+    events:
+      - sns: 
+          arn: !Ref LobbySyncTopic
+          topicName: ${param:lobbySyncTopicName}
+
+
+custom:
+  customDomain:
+    http:
+      domainName: ${param:apiDomain}
+      certificateName: 'swrdl.app'
+      createRoute53Record: true
+      endpointType: 'regional'
+      securityPolicy: tls_1_2
+      autoDomain: true
+
+    websocket:
+      domainName: ${param:wsDomain}
+      certificateName: 'swrdl.app'
+      createRoute53Record: true
+      endpointType: 'regional'
+      securityPolicy: tls_1_2
+      autoDomain: true
+
+resources:
+  Resources:
+    LobbySyncTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${param:lobbySyncTopicName}
+
+    PushNotificationsTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${param:pushNotificationsTopicName}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-domain-manager

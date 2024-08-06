@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "app.swrdl",
+            "sha256_cert_fingerprints": [
+                "F5:20:C7:FB:72:A7:A7:1D:D9:B1:5A:10:73:E3:4B:72:35:E1:4E:B9:B8:F1:8B:76:34:CE:48:45:20:9C:28:34"
+            ]
+        }
+    }
+]
